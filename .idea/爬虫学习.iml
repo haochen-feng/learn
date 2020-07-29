@@ -8,6 +8,7 @@
       <sourceFolder url="file://$MODULE_DIR$/实训" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/爬取豆瓣读书" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/scrapy" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/爬取最好大学" isTestSource="false" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.7" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
