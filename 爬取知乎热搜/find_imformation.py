@@ -1,4 +1,6 @@
 import requests
+import re
+import pandas as pd
 from bs4 import BeautifulSoup
 
 url = 'https://www.zhihu.com/hot'
@@ -8,12 +10,23 @@ headers = {
     'Referer':'https://www.baidu.com/link?url=RbuiMtE5e3yigT_f9L2Jc-iOQnLPdoJ9rvzs3vcobsO&wd=&eqid=fcd1deca0000a7fb000000045f19aa45',
     'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
 }
-r = requests.get(url,headers = headers)
+r = requests.get(url,headers = headers,verify = False)
 html = r.text
+titles = []
+urls = []
+hots = []
 soup = BeautifulSoup(html,'html.parser')
 url = soup.find_all('div',class_='HotItem-content')
-urls = []
 for i in url:
     url = i.a.attrs['href']
     urls.append(url)
-print(len(urls))
+title = soup.find_all('h2',class_='HotItem-title')
+for i in title:
+    titles.append(i.get_text())
+for title in soup.find_all(attrs={'class':'HotItem-content'}):
+    a = re.findall('</svg>(.*?)<span class="HotItem-action">',str(title))
+    hots.append(a[0][:-2])
+dt = {'rank':range(1,51),'url':urls,'title':titles,'hot':hots}
+d = pd.DataFrame(dt)
+
+d.to_csv('zihu.csv',index=False,sep=',')
